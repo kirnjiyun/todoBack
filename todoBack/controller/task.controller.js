@@ -18,7 +18,7 @@ taskController.createTask = async (req, res) => {
 
 taskController.getTask = async (req, res) => {
     try {
-        const taskList = await Task.find({});
+        const taskList = await Task.find({}).select("-__v");
         res.status(200).json({ status: "ok", data: taskList });
     } catch (err) {
         console.error(err); // 서버 로그에 에러를 출력
