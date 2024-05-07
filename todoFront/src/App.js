@@ -58,6 +58,21 @@ function App() {
             console.error("Toggle complete error:", err);
         }
     };
+    const updateTask = async (id, newTask) => {
+        try {
+            const response = await api.put(`/tasks/${id}`, {
+                task: newTask,
+            });
+            if (response.status === 200) {
+                console.log("Task updated successfully");
+                getTasks();
+            } else {
+                throw new Error("Failed to update the task");
+            }
+        } catch (err) {
+            console.error("Update task error:", err);
+        }
+    };
 
     useEffect(() => {
         getTasks();
@@ -85,6 +100,7 @@ function App() {
                 todoList={todoList}
                 deleteTask={deleteTask}
                 toggleComplete={toggleComplete}
+                updateTask={updateTask}
             />
         </Container>
     );
