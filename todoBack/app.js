@@ -4,6 +4,9 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const indexRouter = require("./routes/index");
 const app = express();
+require("dotenv").config();
+const MONGODB_URI_PROD = process.env.MONGODB_URI_PROD;
+console.log("MMM", MONGODB_URI_PROD);
 
 // CORS 미들웨어를 먼저 적용
 app.use(cors());
@@ -14,7 +17,7 @@ app.use(bodyParser.json());
 // 그리고 API 라우터
 app.use("/api", indexRouter);
 
-const mongoURI = `mongodb://localhost:27017/todo-demo`;
+const mongoURI = MONGODB_URI_PROD;
 mongoose
     .connect(mongoURI, { useNewUrlParser: true })
     .then(() => console.log("Database connected successfully"))
