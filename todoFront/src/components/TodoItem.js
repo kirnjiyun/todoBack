@@ -18,9 +18,15 @@ const TodoItem = ({ item, deleteTask, toggleComplete, updateTask }) => {
         setEditing(false);
     };
 
+    const handleKeyDown = (e) => {
+        if (e.key === "Enter") {
+            handleSave();
+        }
+    };
+
     const itemStyle = {
         backgroundColor: item.isComplete ? "gainsboro" : "white",
-        color: item.isComplete ? "white" : "lightblue",
+        color: item.isComplete ? "darkgray" : "lightblue",
     };
 
     return (
@@ -32,6 +38,7 @@ const TodoItem = ({ item, deleteTask, toggleComplete, updateTask }) => {
                             type="text"
                             value={editValue}
                             onChange={handleEditChange}
+                            onKeyDown={handleKeyDown} // Add onKeyDown event handler
                             style={{ marginLeft: "10px" }}
                         />
                     ) : (

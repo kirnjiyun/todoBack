@@ -11,10 +11,12 @@ import api from "./utils/api";
 function App() {
     const [todoList, setTodoList] = useState([]);
     const [inputValue, setInputValue] = useState("");
+
     const getTasks = async () => {
         const response = await api.get("/tasks");
         setTodoList(response.data.data);
     };
+
     const addTask = async () => {
         try {
             const response = await api.post("/tasks", {
@@ -22,14 +24,22 @@ function App() {
                 isComplete: false,
             });
             if (response.status === 200) {
-                console.log("성공");
+                console.log("Task added successfully");
                 setInputValue("");
                 getTasks();
             } else {
-                throw new Error("task can not be added");
+                throw new Error("Task cannot be added");
             }
         } catch (err) {
-            console.log("error", err);
+            console.error("Error adding task:", err);
+        }
+    };
+
+    const handleKeyDown = (e) => {
+        if (e.key === "Enter") {
+            e.preventDefault();
+            addTask();
+            setInputValue("");
         }
     };
     const deleteTask = async (id) => {
@@ -50,7 +60,7 @@ function App() {
                 isComplete: !isComplete,
             });
             if (response.status === 200) {
-                getTasks(); // 상태 업데이트
+                getTasks();
             } else {
                 throw new Error("Failed to toggle the task completion");
             }
@@ -77,6 +87,7 @@ function App() {
     useEffect(() => {
         getTasks();
     }, []);
+
     return (
         <Container>
             <Row className="add-item-row">
@@ -87,6 +98,7 @@ function App() {
                         className="input-box"
                         value={inputValue}
                         onChange={(e) => setInputValue(e.target.value)}
+                        onKeyDown={handleKeyDown}
                     />
                 </Col>
                 <Col xs={12} sm={2}>
