@@ -17,7 +17,7 @@ app.use(bodyParser.json());
 // 그리고 API 라우터
 app.use("/api", indexRouter);
 
-const mongoURI = MONGODB_URI_PROD;
+const mongoURI = `mongodb+srv://kjyun2187:rlawldbs2514@cluster0.srjsf9z.mongodb.net/todo`;
 mongoose
     .connect(mongoURI, { useNewUrlParser: true })
     .then(() => console.log("Database connected successfully"))
@@ -25,6 +25,6 @@ mongoose
         console.log("DB connection fail", err);
     });
 
-app.listen(process.env.PORT || 5000, () =>
-    console.log("Server is running on port 5000")
+app.listen(process.env.PORT || 8080, () =>
+    console.log("Server is running on port 8080")
 );
