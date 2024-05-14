@@ -42,5 +42,20 @@ userController.loginWithEmail = async (req, res) => {
         res.status(400).json({ status: "fail", message: error.message });
     }
 };
+userController.getUser = async (req, res) => {
+    try {
+        const { userId } = req;
+        const user = await User.findById(userId);
+        if (!user) {
+            throw new Error("Cannot find user");
+        }
+        res.status(200).json({ status: "success", user });
+    } catch (error) {
+        console.error("Get user error:", error);
+        res.status(400).json({ status: "fail", message: error.message });
+    }
+};
 
 module.exports = userController;
+
+//미들웨어 사용하기
