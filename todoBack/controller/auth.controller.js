@@ -18,6 +18,14 @@ authController.authenticate = (req, res, next) => {
     }
 
     const token = tokenString.replace("Bearer ", "");
+
+    // 토큰 블랙리스트 검사
+    if (req.tokenBlacklist && req.tokenBlacklist.includes(token)) {
+        return res
+            .status(401)
+            .json({ message: "This token is no longer valid" });
+    }
+
     jwt.verify(token, JWT_SECRET_KEY, (error, payload) => {
         if (error) {
             let errorMessage = "Authentication failed";

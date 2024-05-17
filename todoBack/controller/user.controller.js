@@ -55,6 +55,11 @@ userController.getUser = async (req, res) => {
         res.status(400).json({ status: "fail", message: error.message });
     }
 };
+userController.logout = (req, res) => {
+    const token = req.headers.authorization.split(" ")[1];
+    req.tokenBlacklist.push(token); // 토큰을 블랙리스트에 추가
+    res.status(200).send({ message: "Logged out successfully" });
+};
 
 module.exports = userController;
 
